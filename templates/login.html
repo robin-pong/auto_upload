@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="/static/js/jquery-3.1.1.min.js"></script> 
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.js"></script>
+
+    <title> APP 批量发布系统 </title>
+
+    <script  type="text/javascript">
+
+        $(document).ready(function() {
+
+        });
+
+        function mainPageLoadingRemove() {
+            $("#iframe-loading").remove();
+        }
+
+        function mainPageLoading(msg) {
+            var html = '<div id="iframe-loading" style="position: fixed; top: 0; bottom: 0; left: 0; right: 0; text-align: center;">\n';
+                html += '<div style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; background: #000; opacity: 0.6; filter: alpha(opacity=60);"></div>\n';
+                html += '<div style="position: absolute; top: 50%; left: 50%; width: 360px; height: 160px; margin: -80px 0 0 -180px; background: #fff; border-radius: 4px;">\n';
+                html += '<p style="margin-top: 60px; font-size: 20px; color: #313131;">' + msg + ' '+ '<div><img src="/static/img/loading.gif" /><div>' +'</p>\n';
+                html += '</div>';
+                html += '</div>';
+                $("#mainPage").append(html);
+        }
+
+        function upload(appId, appName) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url:  "http://{{serverIp}}:{{serverPort}}/auto_upload",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    'method':"upload",
+                    'appId': appId,
+                    'appName': appName,
+                }),
+                dataType:"json",
+                // async: false,
+                beforeSend: function(arg) {
+                    mainPageLoading("请等待, 正在上传 [" + appName + "]");
+                },
+
+                success: function(data) {
+                    mainPageLoadingRemove();
+                    if (1 == data.status) {
+                        $('#mainPage').html(data.html);
+                    } else if (-1 == data.status) {
+                        
+                    }
+                },
+
+                error: function() {
+                    mainPageLoadingRemove();
+                }
+            });  
+        }
+
+        function login() {
+            inputAccount = $("#inputAccount").val();
+            inputPassWord = $("#inputPassWord").val();
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url:  "http://{{serverIp}}:{{serverPort}}/auto_upload",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        'method':"login",
+                        'account': inputAccount,
+                        'password': inputPassWord
+                    }),
+                    dataType:"json",
+                    // async: false,
+
+                    beforeSend: function(arg) {
+                        $('#inputAccount').attr('disabled', true);
+                        $('#inputPassWord').attr('disabled',true);
+                        $('#login-btn').attr('disabled',true);
+                        $('#login-msg').html("<div><img src='/static/img/loading.gif' /><div>");
+                    },
+
+                    error: function(err) {
+                        $('#login-msg').html('<h style="color:#FF0000">Network happen error !!!</h>');
+                        $('#inputAccount').attr("disabled",false);
+                        $('#inputPassWord').attr("disabled",false);
+                        $("#login-btn").attr('disabled',false);
+                    },
+
+                    success: function(data) {
+                        if (1 == data.status) {
+                            $('#login-msg').html('<h style="color:#009100">Success, Access now ...</h>');
+                            $('#mainPage').html(data.html);
+                        }
+                        else if (-1 == data.status) {
+                            $('#login-msg').html('<h style="color:#FF0000">Incorrect Account/Password</h>');
+                            $('#inputAccount').attr("disabled",false);
+                            $('#inputPassWord').attr("disabled",false);
+                            $('#login-btn').attr('disabled',false);
+                        }
+                    },
+
+                    complete: function() {
+                        // $('#login-msg').remove();
+                    }
+
+                });
+            }
+
+    </script>
+
+    <style type="text/css">
+    th {
+          text-align:center; /*设置水平居中*/
+          vertical-align:middle;/*设置垂直居中*/
+    }
+
+    tr {
+          text-align:center; /*设置水平居中*/
+          vertical-align:middle;/*设置垂直居中*/
+    }
+    ul li{
+        list-style: none;
+    }
+    </style>
+
+</head>
+<body>
+
+    <div>
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="background-color:#E0E0E0">
+            <div class="container" style="text-align: center">
+                <h1 style="color:#BB3D00">APP 批量发布系统</h1>
+            </div>
+        </nav>
+    </div>
+
+    <div id="mainPage" style="text-align: center">
+        <div>
+            <form>
+                <div id="inputAccountDiv">
+                    <span class="glyphicon glyphicon-user"></span>
+                    <input id="inputAccount" type="text" placeholder="Account">
+                </div>
+                <div id="inputPassWordDiv" style="margin-top:10px; margin-bottom:10px">
+                    <span class="glyphicon glyphicon-asterisk"></span>
+                    <input id="inputPassWord" type="password" placeholder="Password"/>
+                </div>
+                <div>
+                    <button id="login-btn" onclick="login()" type="button">登陆</button>
+                </div>
+                <div style="margin-top:10px;">
+                    <div id="login-msg"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

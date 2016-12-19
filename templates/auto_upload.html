@@ -1,0 +1,37 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-2">
+
+        </div>
+
+        <div class="col-md-8">
+            <div class="table-responsive">
+                <table id="module-table" class="table table-bordered table-hover table-condensed">
+                    <tr>
+                        <th colspan="2">市场</th>
+                        <th>账号</th>
+                        <th>密码</th>
+                        <th>操作</th>
+                    </tr>
+                    {% for module in modules %}
+                    <tr id="trID{{module.id}}">
+                        <td><img src={{module.icon}}/></td>
+                        <td>{{module.name}}</td>
+                        <td><input id="account" type="text" placeholder="输入账号"></td>
+                        <td><input id="password" type="password" placeholder="输入密码"/></td>
+                        <td onclick="upload({{module.id}}, '{{module.name}}');" onMouseOver="this.style='background-color:red;'" onMouseOut="this.style='background-color:;'"><span class="glyphicon glyphicon-open"></span></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            
+
+        </div>
+    </div>
+</div>
