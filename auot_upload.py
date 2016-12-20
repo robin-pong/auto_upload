@@ -28,8 +28,23 @@ modules = [
             {"id":8, "name":"木蚂蚁", "icon":"/static/img/mumayi.png"},
             {"id":9, "name":"移动应用商场", "icon":"/static/img/yidong.png"},
             {"id":10, "name":"应用贝", "icon":"/static/img/yingyongbei.png"},
-            {"id":11, "name":"oppo", "icon":"/static/img/oppo.png", "url":"http://open.oppomobile.com/newuser/authdev", "method":"GET"}
+            {"id":11, "name":"oppo", "icon":"/static/img/oppo.png", "url":"http://open.oppomobile.com/newuser/authdev", "method":"GET", "func":"upload_oppo"}
         ]
+
+def upload_oppo(account, password, appId):
+    print "oppo"
+    pass
+
+def upload_aiyiqi(account, password, appId):
+    print "aiyiqi"
+    pass
+
+funcMap = { "id_11":upload_oppo, 
+            "id_1": upload_aiyiqi}
+
+def func_dispatch(account, password, appId):
+    funcMap_key = "id_" + str(appId)
+    funcMap[funcMap_key](account, password, appId)
 
 @app.route('/auto_upload', methods=['GET', 'POST'])
 def login():
@@ -47,10 +62,11 @@ def login():
             else:
                 return jsonify(status=-1)
         elif (json_data['method'] == 'upload'):
-            #TODO: Upload app
+            func_dispatch(json_data['account'], json_data['password'], json_data['appId']);
             return jsonify(status=-1)
         else:
             return jsonify(status=-1, html=render_template('auto_upload.html', modules=modules))
+
 
 if __name__ == "__main__":
     app.debug = True
