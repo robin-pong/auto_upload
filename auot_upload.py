@@ -28,7 +28,7 @@ modules = [
             {"id":8, "name":"木蚂蚁", "icon":"/static/img/mumayi.png"},
             {"id":9, "name":"移动应用商场", "icon":"/static/img/yidong.png"},
             {"id":10, "name":"应用贝", "icon":"/static/img/yingyongbei.png"},
-            {"id":11, "name":"oppo", "icon":"/static/img/oppo.png"}
+            {"id":11, "name":"oppo", "icon":"/static/img/oppo.png", "url":"http://open.oppomobile.com/newuser/authdev", "method":"GET"}
         ]
 
 @app.route('/auto_upload', methods=['GET', 'POST'])

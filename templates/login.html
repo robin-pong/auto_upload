@@ -29,6 +29,8 @@
         }
 
         function upload(appId, appName) {
+            var account  = document.getElementById('account' + appId).value;
+            var password = document.getElementById('password' + appId).value;
             $.ajax({
                 cache: false,
                 type: "POST",
@@ -38,6 +40,8 @@
                     'method':"upload",
                     'appId': appId,
                     'appName': appName,
+                    'account': account,
+                    'password': password,
                 }),
                 dataType:"json",
                 // async: false,
