@@ -31,16 +31,56 @@ modules = [
             {"id":11, "name":"oppo", "icon":"/static/img/oppo.png", "url":"http://open.oppomobile.com/newuser/authdev", "method":"GET", "func":"upload_oppo"}
         ]
 
-def upload_oppo(account, password, appId):
-    print "oppo"
-    pass
+
 
 def upload_aiyiqi(account, password, appId):
     print "aiyiqi"
     pass
 
-funcMap = { "id_11":upload_oppo, 
-            "id_1": upload_aiyiqi}
+def upload_anbei(account, password, appId):
+    pass
+
+def upload_anzhuoyuan(account, password, appId):
+    pass
+
+def upload_anfenwang(account, password, appId):
+    pass
+
+def upload_chuizi(account, password, appId):
+    pass
+
+def upload_huawei(account, password, appId):
+    pass
+
+def upload_liantong(account, password, appId):
+    pass
+
+def upload_mumayi(account, password, appId):
+    pass
+
+def upload_yidong(account, password, appId):
+    pass
+
+def upload_yingyongbei(account, password, appId):
+    pass
+
+def upload_oppo(account, password, appId):
+    print "oppo"
+    pass
+
+funcMap = {
+            "id_1":  upload_aiyiqi,
+            "id_2":  upload_anbei,
+            "id_3":  upload_anzhuoyuan,
+            "id_4":  upload_anfenwang,
+            "id_5":  upload_chuizi,
+            "id_6":  upload_huawei,
+            "id_7":  upload_liantong,
+            "id_8":  upload_mumayi,
+            "id_9":  upload_yidong,
+            "id_10":  upload_yingyongbei,
+            "id_11": upload_oppo,
+          }
 
 def func_dispatch(account, password, appId):
     funcMap_key = "id_" + str(appId)
